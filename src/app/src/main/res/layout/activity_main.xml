@@ -25,7 +25,7 @@
 
         <RelativeLayout
             android:id="@+id/rspinner"
-            android:layout_width="88dp"
+            android:layout_width="150dp"
             android:layout_height="50dp"
             android:layout_weight=".28"
             android:background="@drawable/rounded"
@@ -35,10 +35,7 @@
                 android:id="@+id/spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="10dp"
                 />
 
             <ImageView
@@ -55,9 +52,11 @@
         <EditText
             android:layout_width="150dp"
             android:layout_height="50dp"
-            android:layout_toRightOf="@id/rspinner"
-            android:background="@drawable/semirounded"
-            android:gravity="center" />
+            android:layout_below="@id/rspinner"
+            android:background="@drawable/roundedbutton"
+            android:hint="N° Documento"
+            android:gravity="center"
+            android:layout_marginTop="20dp"/>
     </RelativeLayout>
 
     <Button
