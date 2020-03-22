@@ -1,18 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#BD0F17"
     tools:context=".MainActivity">
 
-    <TextView
+    <ImageView
+        android:id="@+id/escudo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/ic_escudo"
+        android:layout_marginTop="180dp"
+        tools:ignore="MissingConstraints" />
+    <RelativeLayout
+        android:id="@+id/form"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/escudo"
+        android:layout_marginTop="40dp"
+        android:layout_centerHorizontal="true">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <RelativeLayout
+            android:id="@+id/rspinner"
+            android:layout_width="88dp"
+            android:layout_height="50dp"
+            android:layout_weight=".28"
+            android:background="@drawable/rounded"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginLeft="0dp"
+                android:background="@drawable/ic_arrowdrop" />
+        </RelativeLayout>
+
+
+        <EditText
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_toRightOf="@id/rspinner"
+            android:background="@drawable/semirounded"
+            android:gravity="center" />
+    </RelativeLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/roundedbutton"
+        android:layout_below="@id/form"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:text="Ingresar"
+        android:textColor="#FFFFFF"/>
+
+
+
+
+</RelativeLayout>

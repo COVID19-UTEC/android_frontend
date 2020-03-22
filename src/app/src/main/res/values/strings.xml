@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">COVID19-UTEC</string>
+    <string-array name="opciones_login">
+        <item>DNI</item>
+        <item>Pasaporte</item>
+    </string-array>
 </resources>
