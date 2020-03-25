@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,6 +13,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     //
@@ -32,8 +46,51 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             public void onClick(View v) {
                 String type = spinner.getSelectedItem().toString();
                 String document = editText.getText().toString();
-                String phone = telephonyManager.getDeviceId();
-                Toast.makeText(getApplicationContext(), "Tipo de documento: " + type + "\nNúmero de documento: " + document,Toast.LENGTH_LONG).show();
+                String phone = "322";
+                JSONObject postData = new JSONObject();
+                try {
+                    postData.put("document", document);
+                    postData.put("type", type);
+                    postData.put("phone", phone);
+
+                    RequestQueue queue = Volley.newRequestQueue(getBaseContext());
+
+                    String urlLogin = "http://107.180.91.147:3031/sigup/app";
+                    StringRequest postRequest = new StringRequest(Request.Method.POST, urlLogin,
+                            new Response.Listener<String>()
+                            {
+                                @Override
+                                public void onResponse(String response) {
+                                    // response
+                                    Log.d("Response", response);
+                                }
+                            },
+                            new Response.ErrorListener()
+                            {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    // error
+                                    Log.d("Error.Response", error.toString());
+                                }
+                            }
+                    ) {
+                        @Override
+                        protected Map<String, String> getParams()
+                        {
+                            Map<String, String>  params = new HashMap<String, String>();
+                            params.put("name", "Alif");
+                            params.put("domain", "http://itsalif.info");
+
+                            return params;
+                        }
+                    };
+                    queue.add(postRequest);
+
+//                    new SendDeviceDetails().execute("http://52.88.194.67:8080/IOTProjectServer/registerDevice", postData.toString());
+                    Toast.makeText(getApplicationContext(), postData.toString(),Toast.LENGTH_LONG).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
