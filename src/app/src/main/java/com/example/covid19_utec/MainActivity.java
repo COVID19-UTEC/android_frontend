@@ -14,11 +14,13 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
@@ -52,45 +54,38 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     postData.put("document", document);
                     postData.put("type", type);
                     postData.put("phone", phone);
-
-                    RequestQueue queue = Volley.newRequestQueue(getBaseContext());
-
-                    String urlLogin = "http://107.180.91.147:3031/sigup/app";
-                    StringRequest postRequest = new StringRequest(Request.Method.POST, urlLogin,
-                            new Response.Listener<String>()
-                            {
-                                @Override
-                                public void onResponse(String response) {
-                                    // response
-                                    Log.d("Response", response);
-                                }
-                            },
-                            new Response.ErrorListener()
-                            {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    // error
-                                    Log.d("Error.Response", error.toString());
-                                }
-                            }
-                    ) {
-                        @Override
-                        protected Map<String, String> getParams()
-                        {
-                            Map<String, String>  params = new HashMap<String, String>();
-                            params.put("name", "Alif");
-                            params.put("domain", "http://itsalif.info");
-
-                            return params;
-                        }
-                    };
-                    queue.add(postRequest);
-
-//                    new SendDeviceDetails().execute("http://52.88.194.67:8080/IOTProjectServer/registerDevice", postData.toString());
-                    Toast.makeText(getApplicationContext(), postData.toString(),Toast.LENGTH_LONG).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+                Log.i("VOLLEY", postData.toString());
+                String urlLogin = "http://107.180.91.147:3031/login/app";
+
+                RequestQueue mQueue = Volley.newRequestQueue(getBaseContext());
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,urlLogin, postData,
+                        new Response.Listener<JSONObject>(){
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                Log.i("VOLLEY", response.toString());
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                if (error instanceof AuthFailureError) {
+                                    Toast.makeText(getApplicationContext(), "Auth ERROR: " + error, Toast.LENGTH_SHORT ).show();
+                                }
+                                else {
+                                    Toast.makeText(getApplicationContext(), "ERROR: " + error, Toast.LENGTH_SHORT ).show();
+                                    Log.e("TAG", error.getMessage(), error);
+                                }
+                            }
+                        })
+
+                {
+                };
+                jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(1000, 2, 1));
+                mQueue.add(jsonObjectRequest);
             }
         });
     }
