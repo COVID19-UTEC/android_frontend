@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/ic_escudo"
+        android:background="@drawable/ic_escudo_red"
         android:layout_marginTop="180dp"
         tools:ignore="MissingConstraints" />
     <RelativeLayout
@@ -36,14 +36,6 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="10dp"></Spinner>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:layout_marginLeft="0dp"
-                android:background="@drawable/ic_arrowdrop" />
         </RelativeLayout>
 
         <EditText
