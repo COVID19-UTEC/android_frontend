@@ -3,6 +3,7 @@ package com.example.covid19_utec;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -84,8 +85,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                 {
                 };
-                jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(1000, 2, 1));
+                jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(2000, 2, 1));
                 mQueue.add(jsonObjectRequest);
+                Intent myIntent = new Intent(MainActivity.this, SymptomActivity.class);
+                startActivity(myIntent);
             }
         });
     }
