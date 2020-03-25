@@ -50,24 +50,27 @@
 
 
         <EditText
+            android:id="@+id/nDocumento"
             android:layout_width="150dp"
             android:layout_height="50dp"
             android:layout_below="@id/rspinner"
+            android:layout_marginTop="20dp"
             android:background="@drawable/roundedbutton"
-            android:hint="N° Documento"
             android:gravity="center"
-            android:layout_marginTop="20dp"/>
+            android:hint="N° Documento"
+            android:singleLine="true" />
     </RelativeLayout>
 
     <Button
+        android:id="@+id/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/roundedbutton"
         android:layout_below="@id/form"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
+        android:background="@drawable/roundedbutton"
         android:text="Ingresar"
-        android:textColor="#FFFFFF"/>
+        android:textColor="#FFFFFF" />
 
 
 
