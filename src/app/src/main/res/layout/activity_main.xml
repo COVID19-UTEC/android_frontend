@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#BD0F17"
+    android:background="@drawable/whitebackground"
     tools:context=".MainActivity">
 
     <ImageView
@@ -27,16 +27,14 @@
             android:id="@+id/rspinner"
             android:layout_width="150dp"
             android:layout_height="50dp"
-            android:layout_weight=".28"
-            android:background="@drawable/rounded"
+            android:background="@drawable/rounded_edit_text"
             android:orientation="horizontal">
 
             <Spinner
                 android:id="@+id/spinner"
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
-                />
+                android:layout_marginLeft="10dp"></Spinner>
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -48,17 +46,18 @@
                 android:background="@drawable/ic_arrowdrop" />
         </RelativeLayout>
 
-
         <EditText
             android:id="@+id/nDocumento"
             android:layout_width="150dp"
             android:layout_height="50dp"
             android:layout_below="@id/rspinner"
             android:layout_marginTop="20dp"
-            android:background="@drawable/roundedbutton"
+            android:background="@drawable/rounded"
             android:gravity="center"
             android:hint="N° Documento"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textAlignment="center"
+            android:textColor="#000000"/>
     </RelativeLayout>
 
     <Button
