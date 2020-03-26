@@ -164,8 +164,5 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 callPermissions();
             }
         });
-
-    public void login(View view) {
-
     }
 }
