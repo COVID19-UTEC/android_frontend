@@ -1,7 +1,8 @@
 <resources>
-    <string name="app_name">COVID19-UTEC</string>
+    <string name="app_name">Covid-19</string>
     <string-array name="opciones_login">
         <item>DNI</item>
         <item>Pasaporte</item>
+        <item>Carnet de Extranjería</item>
     </string-array>
 </resources>
