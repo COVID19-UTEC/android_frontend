@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="#fff"
-    tools:context=".SymptomActivity">
+    tools:context=".symptoms.TravelContactActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -47,111 +47,46 @@
 
 
         <TextView
-            android:id="@+id/pregunta1"
+            android:id="@+id/question"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:paddingLeft="15sp"
-            android:text="¿Tienes Tos seca?"
+            android:paddingLeft="10sp"
+            android:text="¿Has viajado o estado en un área afectada por el COVID-19?"
             android:textColor="#73767b"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <RelativeLayout
-            android:id="@+id/answer1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/pregunta1"
-            android:layout_marginTop="30dp"
-            android:gravity="center">
-
-            <Button
-                android:id="@+id/si_button1"
-                android:layout_width="80dp"
-                android:layout_height="75dp"
-                android:background="@drawable/yes_button_unselected"
-                android:text="Si"
-                android:textColor="#1a9d6b"
-                android:textSize="30sp" />
-
-            <Button
-                android:id="@+id/no_button1"
-                android:layout_width="80dp"
-                android:layout_height="75dp"
-                android:layout_marginLeft="20dp"
-                android:layout_toRightOf="@id/si_button1"
-                android:background="@drawable/no_button_unselected"
-                android:text="No"
-                android:textColor="#eb0303"
-                android:textSize="30sp" />
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/pregunta2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/answer1"
-            android:layout_marginTop="30dp"
-            android:paddingLeft="15dp"
-            android:text="¿Tienes Problema para respirar?"
-            android:textColor="#73767b"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <RelativeLayout
-            android:id="@+id/answer2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/pregunta2"
-            android:layout_marginTop="30dp"
-            android:gravity="center">
-
-            <Button
-                android:id="@+id/si_button2"
-                android:layout_width="80dp"
-                android:layout_height="75dp"
-                android:background="@drawable/yes_button_unselected"
-                android:text="Si"
-                android:textColor="#1a9d6b"
-                android:textSize="30sp" />
-
-            <Button
-                android:id="@+id/no_button2"
-                android:layout_width="80dp"
-                android:layout_height="75dp"
-                android:layout_marginLeft="20dp"
-                android:layout_toRightOf="@id/si_button2"
-                android:background="@drawable/no_button_unselected"
-                android:text="No"
-                android:textColor="#eb0303"
-                android:textSize="30sp" />
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/pregunta3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/answer2"
-            android:layout_marginTop="30dp"
-            android:paddingLeft="15dp"
-            android:text="¿Cuál es tu temperatura?"
-            android:textColor="#73767b"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/temperature"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_below="@+id/pregunta3"
+            android:textSize="50sp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/rounded"
-            android:gravity="center"
-            android:hint="Ingrese su temperatura"
-            android:inputType="number"
             android:textAlignment="center"
-            android:textColor="#000000" />
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:id="@+id/answer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/question"
+            android:layout_marginTop="30dp"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/si_button"
+                android:layout_width="80dp"
+                android:layout_height="75dp"
+                android:background="@drawable/yes_button_unselected"
+                android:text="Si"
+                android:textColor="#1a9d6b"
+                android:textSize="30sp" />
+
+            <Button
+                android:id="@+id/no_button"
+                android:layout_width="80dp"
+                android:layout_height="75dp"
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@id/si_button"
+                android:background="@drawable/no_button_unselected"
+                android:text="No"
+                android:textColor="#eb0303"
+                android:textSize="30sp" />
+        </RelativeLayout>
 
     </RelativeLayout>
 
@@ -189,7 +124,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="52dp"
-        android:text="Enviar"
+        android:text="Continuar"
         android:textColor="@color/colorPrimary"
         android:textSize="25sp"
         android:onClick="sendData"
@@ -212,4 +147,3 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-

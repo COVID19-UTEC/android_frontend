@@ -9,9 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.telephony.TelephonyManager;
 
 import android.util.Log;
@@ -35,134 +32,127 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import com.example.covid19_utec.symptoms.CoughActivity;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
+    InputStream is;
+    HashMap<String,HashMap<String,ArrayList<String>>> data;
+    Spinner deparmentsSpinner;
+    Spinner provinciaSpinner;
+    Spinner districtSpinner;
+    String deparment="";
+    String provincia="";
+    String district="";
+    List<String> departments;
+    List<String> provincias;
+    List<String> distritos;
+
     //
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        try {
+            is = getAssets().open("newdata.json");
+            data = new ObjectMapper().readValue(is, HashMap.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         final Spinner spinner = (Spinner) findViewById(R.id.spinner);
         final EditText editText = (EditText) findViewById(R.id.nDocumento);
         final TelephonyManager telephonyManager = (TelephonyManager) getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
+        deparmentsSpinner = findViewById(R.id.spinner_departments);
+        provinciaSpinner = findViewById(R.id.spinner_provincia);
+        districtSpinner = findViewById(R.id.spinner_district);
         ArrayAdapter<CharSequence> myadapter=  ArrayAdapter.createFromResource(this,R.array.opciones_login,R.layout.spinner_item);
         myadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        departments= new ArrayList<String>(data.keySet());
+        ArrayAdapter <String> departmentAdapter= new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,departments);
+        deparmentsSpinner.setAdapter(departmentAdapter);
         spinner.setAdapter(myadapter);
-        spinner.setOnItemSelectedListener(this);
 
-        callPermissions();
+        deparmentsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                deparment= departments.get(i);
+                changeProvinceAdapter();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) { }
+        });
+
+        provinciaSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                provincia = provincias.get(i);
+                changeDistrictAdapter();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) { }
+        });
 
         Button login = (Button) findViewById(R.id.login);
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String type = spinner.getSelectedItem().toString();
-                String document = editText.getText().toString();
-                String phone = "322";
-                JSONObject postData = new JSONObject();
-                try {
-                    postData.put("document", document);
-                    postData.put("type", type);
-                    postData.put("phone", phone);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                Log.i("VOLLEY", postData.toString());
-                String urlLogin = "http://107.180.91.147:3031/login/app";
-
-                RequestQueue mQueue = Volley.newRequestQueue(getBaseContext());
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,urlLogin, postData,
-                        new Response.Listener<JSONObject>(){
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                Log.i("VOLLEY", response.toString());
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                if (error instanceof AuthFailureError) {
-                                    Toast.makeText(getApplicationContext(), "Auth ERROR: " + error, Toast.LENGTH_SHORT ).show();
-                                }
-                                else {
-                                    Toast.makeText(getApplicationContext(), "ERROR: " + error, Toast.LENGTH_SHORT ).show();
-                                    Log.e("TAG", error.getMessage(), error);
-                                }
-                            }
-                        })
-
-                {
-                };
-                jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(2000, 2, 1));
-                mQueue.add(jsonObjectRequest);
-                Intent myIntent = new Intent(MainActivity.this, SymptomActivity.class);
-                startActivity(myIntent);
+        login.setOnClickListener(v -> {
+            String type = spinner.getSelectedItem().toString();
+            String document = editText.getText().toString();
+            district = districtSpinner.getSelectedItem().toString();
+            JSONObject postData = new JSONObject();
+            try {
+                postData.put("document", document);
+                postData.put("type", type);
+                postData.put("departamento",deparment);
+                postData.put("provincia",provincia);
+                postData.put("distrito",district);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+            Log.i("VOLLEY", postData.toString());
+            String urlLogin = "http://107.180.91.147:3031/login/app";
+
+            RequestQueue mQueue = Volley.newRequestQueue(getBaseContext());
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,urlLogin, postData,
+                response -> Log.i("VOLLEY", response.toString()),
+                error -> {
+                    if (error instanceof AuthFailureError) {
+                        //Toast.makeText(getApplicationContext(), "Auth ERROR: " + error, Toast.LENGTH_SHORT ).show();
+                    }
+                    else {
+                        //Toast.makeText(getApplicationContext(), "ERROR: " + error, Toast.LENGTH_SHORT ).show();
+                        Log.e("TAG", error.getMessage(), error);
+                    }
+                });
+            jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(2000, 2, 1));
+            mQueue.add(jsonObjectRequest);
+            Intent myIntent = new Intent(MainActivity.this, CoughActivity.class);
+            myIntent.putExtra("document",document);
+            myIntent.putExtra("type",type);
+            startActivity(myIntent);
         });
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+    public void changeProvinceAdapter(){
+        provincias = new ArrayList<String>(data.get(deparment).keySet());
+        ArrayAdapter <String> provinceAdapter= new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,provincias);
+        provinciaSpinner.setAdapter(provinceAdapter);
     }
 
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
+    public void changeDistrictAdapter(){
+        distritos = new ArrayList<String>(data.get(deparment).get(provincia));
+        ArrayAdapter <String> districtAdapter= new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,distritos);
+        districtSpinner.setAdapter(districtAdapter);
     }
 
-
-    private void startLocationService(){
-        if(!isLocationServiceRunning()){
-            Intent serviceIntent = new Intent(this, LocationService.class);
-//        this.startService(serviceIntent);
-
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O){
-
-                MainActivity.this.startForegroundService(serviceIntent);
-            }else{
-                startService(serviceIntent);
-            }
-        }
-    }
-
-    private boolean isLocationServiceRunning() {
-        ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)){
-            if("com.codingwithmitch.googledirectionstest.services.LocationService".equals(service.service.getClassName())) {
-                Log.d(TAG, "isLocationServiceRunning: location service is already running.");
-                return true;
-            }
-        }
-        Log.d(TAG, "isLocationServiceRunning: location service is not running.");
-        return false;
-    }
-
-    public void callPermissions() {
-        String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
-        Permissions.check(this/*context*/, permissions, "Local permission are required", new Permissions.Options()
-                .setRationaleDialogTitle("Info")
-                .setSettingsDialogTitle("Warning"), new PermissionHandler() {
-            @Override
-            public void onGranted() {
-                startLocationService();
-            }
-
-            @Override
-            public void onDenied(Context context, ArrayList<String> deniedPermissions) {
-                super.onDenied(context, deniedPermissions);
-                callPermissions();
-            }
-        });
-    }
 }
