@@ -2,26 +2,49 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.covid19_utec">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" android:screenOrientation="portrait">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".MessageActivity"></activity>
+        <activity android:name=".symptoms.DirectContactActivity" />
+        <activity android:name=".symptoms.TravelContactActivity" />
+        <activity android:name=".symptoms.TravelActivity" />
+        <activity android:name=".symptoms.FatigueActivity" />
+        <activity android:name=".symptoms.BreatheActivity" />
+        <activity android:name=".symptoms.SmellActivity" />
+        <activity android:name=".symptoms.FeverActivity" />
+        <activity android:name=".symptoms.HeadacheActivity" />
+        <activity android:name=".symptoms.BodyActivity" />
+        <activity android:name=".symptoms.SoreThroatActivity" />
+        <activity android:name=".symptoms.StomachActivity" />
+        <activity
+            android:name=".symptoms.ShiverActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".symptoms.CoughActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".BaseSymptomActivity" />
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SymptomActivity" android:screenOrientation="portrait">
-        </activity>
 
+        <service android:name=".LocationService" />
     </application>
 
 </manifest>
