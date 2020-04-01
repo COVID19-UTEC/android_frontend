@@ -54,7 +54,7 @@
             android:paddingLeft="10sp"
             android:text="¿Has estado en contacto directo o cuidado a algún paciente positivo a COVID-19?"
             android:textColor="#73767b"
-            android:textSize="50sp"
+            android:textSize="40sp"
             android:layout_centerHorizontal="true"
             android:textAlignment="center"
             android:textStyle="bold" />
