@@ -34,60 +34,58 @@
     </androidx.appcompat.widget.Toolbar>
 
     <RelativeLayout
-        android:layout_width="411dp"
-        android:layout_height="494dp"
+        android:layout_width="410dp"
+        android:layout_height="543dp"
         android:background="#edf0f5"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.565">
+        app:layout_constraintVertical_bias="0.765">
 
 
         <TextView
             android:id="@+id/puntaje"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
+            android:gravity="center"
             android:text="Puntaje"
             android:textColor="#73767b"
             android:textSize="40sp"
-            android:gravity="center"
-            android:layout_centerHorizontal="true"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/result"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="80sp"
-            android:text="12"
-            android:textColor="#000"
             android:layout_below="@+id/puntaje"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
-            />
+            android:text="12"
+            android:textColor="#000"
+            android:textSize="80sp" />
 
         <TextView
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
             android:id="@+id/mensaje"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/result"
-            android:text="Quedate en Casa"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:gravity="center"
-            android:textStyle="bold"
+            android:layout_marginLeft="30dp"
             android:layout_marginTop="20dp"
-            android:textColor="#000"
-            android:textSize="35sp"
+            android:layout_marginRight="30dp"
+            android:gravity="center"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            />
+            android:text="Quedate en Casa"
+            android:textColor="#000"
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 
@@ -120,29 +118,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/send"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="52dp"
-        android:text="Continuar"
-        android:textColor="@color/colorPrimary"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.778"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageView
-        android:id="@+id/sendImage"
-        android:layout_width="46dp"
-        android:layout_height="49dp"
-        android:layout_marginBottom="42dp"
-        android:src="@drawable/ic_right_arrow"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.918"
-        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

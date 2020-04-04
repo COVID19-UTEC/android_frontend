@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:background="@drawable/ic_escudo_red"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="180dp"
         tools:ignore="MissingConstraints" />
     <RelativeLayout
         android:id="@+id/form"
@@ -51,60 +51,6 @@
             android:singleLine="true"
             android:textAlignment="center"
             android:textColor="#000000"/>
-
-        <RelativeLayout
-            android:id="@+id/rspinner2"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
-            android:background="@drawable/rounded_edit_text"
-            android:layout_below="@+id/nDocumento"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
-
-            <Spinner
-                android:id="@+id/spinner_departments"
-                android:layout_width="150dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="10dp">
-            </Spinner>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rspinner3"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
-            android:background="@drawable/rounded_edit_text"
-            android:layout_below="@+id/rspinner2"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
-
-            <Spinner
-                android:id="@+id/spinner_provincia"
-                android:layout_width="150dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="10dp">
-            </Spinner>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rspinner4"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
-            android:background="@drawable/rounded_edit_text"
-            android:layout_below="@+id/rspinner3"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
-
-            <Spinner
-                android:id="@+id/spinner_district"
-                android:layout_width="150dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="10dp">
-            </Spinner>
-
-        </RelativeLayout>
 
     </RelativeLayout>
 

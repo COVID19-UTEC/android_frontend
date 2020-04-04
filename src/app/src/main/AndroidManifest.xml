@@ -17,26 +17,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".MessageActivity"></activity>
-        <activity android:name=".symptoms.DirectContactActivity" />
-        <activity android:name=".symptoms.TravelContactActivity" />
-        <activity android:name=".symptoms.TravelActivity" />
-        <activity android:name=".symptoms.FatigueActivity" />
-        <activity android:name=".symptoms.BreatheActivity" />
-        <activity android:name=".symptoms.SmellActivity" />
-        <activity android:name=".symptoms.FeverActivity" />
-        <activity android:name=".symptoms.HeadacheActivity" />
-        <activity android:name=".symptoms.BodyActivity" />
-        <activity android:name=".symptoms.SoreThroatActivity" />
-        <activity android:name=".symptoms.StomachActivity" />
+        <activity android:name=".NotificationActivity"></activity>
+        <activity android:name=".SymptomActivity" />
+        <activity android:name=".MessageActivity" />
         <activity
-            android:name=".symptoms.ShiverActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".symptoms.CoughActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".BaseSymptomActivity" />
-        <activity android:name=".MainActivity">
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
