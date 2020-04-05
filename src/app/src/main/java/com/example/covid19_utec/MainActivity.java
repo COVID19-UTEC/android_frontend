@@ -19,8 +19,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity {
 
+public class MainActivity extends AppCompatActivity {
+    private static final String publicityId ="464a4v7vcq6s";
     private static final String TAG = "MainActivity";
     InputStream is;
     HashMap<String,HashMap<String,ArrayList<String>>> data;
@@ -47,7 +48,9 @@ public class MainActivity extends AppCompatActivity {
             sendLoginData();
             getQuestionData();
         });
+
     }
+
 
     public void getQuestionData(){
         String urlQuestions = "http://107.180.91.147:3031/symptom/questions";
@@ -69,8 +72,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startSymptomActivity(ArrayList<String> questions){
-        Intent myIntent = new Intent(MainActivity.this, SymptomActivity.class);
+        Intent myIntent = new Intent(MainActivity.this, HomeActivity.class);
         myIntent.putExtra("document",document);
+        myIntent.putExtra("publicityId",publicityId);
         myIntent.putExtra("type",type);
         myIntent.putExtra("questions",questions);
         startActivity(myIntent);
@@ -79,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
     public void sendLoginData(){
         JSONObject postData = new JSONObject();
         try {
+            postData.put("publicityId",publicityId);
             postData.put("document", document);
             postData.put("type", type);
         } catch (JSONException e) {

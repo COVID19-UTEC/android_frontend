@@ -1,98 +1,123 @@
 package com.example.covid19_utec;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.PagerTabStrip;
-import androidx.viewpager.widget.ViewPager;
-
 import android.Manifest;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SymptomActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
     private static final String TAG = "SymptomActivity";
     String message;
     int score;
-    PagerTabStrip pagerTabStrip;
-    ViewPager vpPager;
-    FragmentPagerAdapter adapterViewPager;
+    private  String publicityId;
     protected String document;
     protected String type;
     protected ArrayList<Boolean> answers;
     private ArrayList<String> questions;
-    private static ArrayList<SymptomFragment> fragments;
+    private ReportFragment reportFragment;
+    private NotificationFragment notificationFragment;
+    private TextView title;
+
     Map<String,Object> data;
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = item -> {
+                switch (item.getItemId()){
+                    case R.id.navigation_report:
+                        switchToFragmentReport();
+                        break;
+                    case R.id.navigation_notifications:
+                        switchToFragmentNotification();
+                        break;
+                }
+                return true;
+            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_symptom);
+        setContentView(R.layout.activity_home);
         Intent intent= getIntent();
+        publicityId = intent.getStringExtra("publicityId");
         document = intent.getStringExtra("document");
         type = intent.getStringExtra("type");
         questions = intent.getStringArrayListExtra("questions");
-        initializeArrays();
-        pagerTabStrip = findViewById(R.id.pager_header);
-        pagerTabStrip.setTextColor(Color.BLACK);
-        vpPager = (ViewPager) findViewById(R.id.vpPager);
-        adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
-        vpPager.setAdapter(adapterViewPager);
+
+        title = findViewById(R.id.fragment_title);
+        BottomNavigationView navView = findViewById(R.id.nav_view);
+        reportFragment = new ReportFragment();
+        notificationFragment = new NotificationFragment();
+        navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,reportFragment).commit();
+        getNotifications();
         callPermissions();
     }
 
-    public void initializeArrays(){
-        fragments = new ArrayList<>();
-        Boolean visibleSendButton,visibleGoNextButton,visibleGoBackButton;
-        visibleGoBackButton=visibleGoNextButton=true;
-        visibleSendButton = false;
-        for( int i = 0; i<questions.size();i++){
-            if(i==0)
-                visibleGoBackButton=false;
-            if(i== questions.size()-1) {
-                visibleGoNextButton=false;
-                visibleSendButton=true;
-            }
-            fragments.add(SymptomFragment.newInstance(questions.get(i),i,visibleGoBackButton,visibleGoNextButton,visibleSendButton));
-            visibleGoBackButton=visibleGoNextButton=true;
+    public void getNotifications(){
+        String urlNotifications = "http://107.180.91.147:3031/notification/get-all";
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("publicityId", publicityId);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+        Log.i("Notifications", postData.toString());
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, urlNotifications, postData,
+                response -> {
+                    if (response == null) {
+                        Log.i("notifications", "null");
+                    } else {
+                        Log.i("notifications", response.toString());
+                    }
+                }, error -> Log.i("notifications", error.toString()));
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(2000, 2, 1));
+        Volley.newRequestQueue(getBaseContext()).add(jsonObjectRequest);
+    }
+    public void changeFragmentTitle(String fragmentTitle){
+        title.setText(fragmentTitle);
     }
 
-    public void sendData(){
-        answers = new ArrayList<>();
-        for(SymptomFragment b :fragments ){
-            answers.add(b.getResult());
-        }
+    public ArrayList<String> getQuestions(){
+        return questions;
+    }
+    public void switchToFragmentReport() {
+        FragmentManager manager = getSupportFragmentManager();
+        manager.beginTransaction().replace(R.id.nav_host_fragment, reportFragment).commit();
+    }
+
+    public void switchToFragmentNotification() {
+        FragmentManager manager = getSupportFragmentManager();
+        manager.beginTransaction().replace(R.id.nav_host_fragment, notificationFragment).commit();
+    }
+
+
+    public void sendData(ArrayList<Boolean> answers){
+        this.answers =answers;
         data = new HashMap<>();
-        data.put("document",document);
-        data.put("type",type);
+        data.put("publicityId",publicityId);
         data.put("result",answers);
         JSONObject postData =  new JSONObject(data);
         String urlSymptom = "http://107.180.91.147:3031/symptom/report";
@@ -109,34 +134,10 @@ public class SymptomActivity extends AppCompatActivity {
         Volley.newRequestQueue(getBaseContext()).add(jsonObjectRequest);
     }
 
-    public static class MyPagerAdapter extends FragmentPagerAdapter {
-        private static int NUM_ITEMS = fragments.size();
-
-        public MyPagerAdapter(FragmentManager fragmentManager) {
-            super(fragmentManager);
-
-        }
-        @Override
-        public int getCount() {
-            return NUM_ITEMS;
-        }
-        @Override
-        public Fragment getItem(int position) {
-            return fragments.get(position);
-        }
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return "Pregunta" + (position+1);
-        }
-
-    }
-
-    public void setCurrentItem (int item, boolean smoothScroll) {
-        vpPager.setCurrentItem(item, smoothScroll);
-    }
 
     public void startMessageActivity(){
         Intent intent = new Intent(this, MessageActivity.class);
+        intent.putExtra("publicityId",publicityId);
         intent.putExtra("document",document);
         intent.putExtra("type",type);
         intent.putExtra("message",message);
@@ -150,10 +151,11 @@ public class SymptomActivity extends AppCompatActivity {
             Intent serviceIntent = new Intent(this, LocationService.class);
             serviceIntent.putExtra("document",document);
             serviceIntent.putExtra("type",type);
+            serviceIntent.putExtra("publicityId",publicityId);
 
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O){
 
-                SymptomActivity.this.startForegroundService(serviceIntent);
+                HomeActivity.this.startForegroundService(serviceIntent);
             }else{
                 startService(serviceIntent);
             }

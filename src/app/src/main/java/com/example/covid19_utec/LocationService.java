@@ -47,6 +47,7 @@ public class LocationService extends Service {
     private LocationRequest locationRequest;
     private String document;
     private String type;
+    private String publicityId;
     int interval;
 
     @Override
@@ -75,6 +76,7 @@ public class LocationService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         document = intent.getStringExtra("document");
         type = intent.getStringExtra("type");
+        publicityId = intent.getStringExtra("publicityId");
         requestLocationUpdates();
         return START_NOT_STICKY;
     }
@@ -133,8 +135,7 @@ public class LocationService extends Service {
             Log.e(TAG, "Latitude: " + location.getLatitude() + "\nLongitude: " + location.getLongitude());
             //Toast.makeText(this, "Latitude: "+ location.getLatitude()+"\nLongitude: "+location.getLongitude(), Toast.LENGTH_LONG).show();
             Map<String, Object> data = new HashMap<String, Object>();
-            data.put("document", document);
-            data.put("type", type);
+            data.put("publicityId",publicityId);
             data.put("latitude", 12);
             data.put("longitude", 12);
             JSONObject postData;

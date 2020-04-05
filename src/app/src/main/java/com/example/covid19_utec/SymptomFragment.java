@@ -1,13 +1,12 @@
 package com.example.covid19_utec;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class SymptomFragment extends Fragment {
@@ -18,8 +17,8 @@ public class SymptomFragment extends Fragment {
     Button yesButton;
     Button noButton;
     Button sendButton;
-    Button goback;
-    Button gonext;
+    ImageButton goback;
+    ImageButton gonext;
     Boolean visibleGoNextButton;
     Boolean visibleGoBackButton;
     Boolean visibleSendButton;
@@ -69,7 +68,7 @@ public class SymptomFragment extends Fragment {
         created = true;
     }
 
-    private void paintActualButton(){
+    public void paintActualButton(){
         if(value == null)
             return;
         if(value)
@@ -101,19 +100,19 @@ public class SymptomFragment extends Fragment {
             goNextFragment();
         });
         sendButton.setOnClickListener((View v)->{
-            ((SymptomActivity)getActivity()).sendData();
+            ((ReportFragment)getParentFragment()).sendDataToActivity();
         });
         gonext.setOnClickListener((View v)->{
-            ((SymptomActivity)getActivity()).setCurrentItem(position+1,true);
+            ((ReportFragment)getParentFragment()).setCurrentItem(position+1,true);
         });
         goback.setOnClickListener((View v)->{
-            ((SymptomActivity)getActivity()).setCurrentItem(position-1,true);
+            ((ReportFragment)getParentFragment()).setCurrentItem(position-1,true);
         });
     }
 
     public void goNextFragment(){
         if(groupRadio.areButtonsPainted())
-            ((SymptomActivity)getActivity()).setCurrentItem(position+1,true);
+            ((ReportFragment)getParentFragment()).setCurrentItem(position+1,true);
     }
 
     public void setVisibility(){
@@ -130,10 +129,6 @@ public class SymptomFragment extends Fragment {
         if(value == null)
             return false;
         return value;
-    }
-
-    public int getPosition(){
-        return position;
     }
 
 }
