@@ -39,7 +39,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         TextView messageView;
         public ViewHolderNotification(@NonNull View itemView) {
             super(itemView);
-            messageView = itemView.findViewById(R.id.message_item);
+            messageView = itemView.findViewById(R.id.message_content);
         }
 
         public void asignarDatos(String data) {

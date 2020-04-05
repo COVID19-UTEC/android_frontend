@@ -17,8 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".NotificationActivity"></activity>
-        <activity android:name=".SymptomActivity" />
+        <activity android:name=".HomeActivity" />
         <activity android:name=".MessageActivity" />
         <activity
             android:name=".MainActivity"

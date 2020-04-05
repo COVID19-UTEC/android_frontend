@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.covid19_utec"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -53,4 +53,6 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.4'
     implementation 'com.fasterxml.jackson.core:jackson-core:2.9.4'
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.9.4'
+
+
 }

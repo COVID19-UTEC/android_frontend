@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
-    tools:context=".SymptomActivity"
+    tools:context=".HomeActivity"
     >
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
@@ -19,7 +19,6 @@
         app:itemBackground="@android:color/white"
         app:itemIconTint="@drawable/bottom_navigation_selector"
         app:itemTextColor="@drawable/bottom_navigation_selector"
-
         app:menu="@menu/bottom_nav_menu" />
 
     <include
@@ -28,7 +27,7 @@
         android:layout_height="wrap_content"/>
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/fragment_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
@@ -41,7 +40,7 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_below="@id/textView"
+        android:layout_below="@id/fragment_title"
         android:layout_width="wrap_content"
         android:layout_height="10dp"
         android:layout_marginLeft="10dp"
@@ -52,31 +51,15 @@
         android:text="Report"
         android:textColor="#000"
         />
-
-    <RelativeLayout
-        android:id="@+id/card"
-        android:layout_below="@+id/textView2"
+    <fragment
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
         android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="match_parent"
+        android:layout_below="@+id/textView2"
+        android:layout_above="@+id/nav_view"/>
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/vpPager"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <androidx.viewpager.widget.PagerTabStrip
-                android:id="@+id/pager_header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top"
-
-                android:paddingBottom="4dp"
-                android:paddingTop="4dp" />
-
-        </androidx.viewpager.widget.ViewPager>
-    </RelativeLayout>
 
 </RelativeLayout>
 
