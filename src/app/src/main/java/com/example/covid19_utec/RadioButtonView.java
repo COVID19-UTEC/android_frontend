@@ -39,25 +39,25 @@ public class RadioButtonView {
         paintNoButton();
     }
 
-    private void paintYesButton() {
+    public void paintYesButton() {
         yesButton.setBackground(ContextCompat.getDrawable(context, R.drawable.yes_button_selected));
         yesButton.setTextColor(Color.parseColor("#FFFFFF"));
         yesButtonSelected = true;
     }
 
-    private void unPaintYesButton(){
+    public void unPaintYesButton(){
         yesButton.setBackground(ContextCompat.getDrawable(context, R.drawable.yes_button_unselected));
         yesButton.setTextColor(Color.parseColor("#1a9d6b"));
         yesButtonSelected = false;
     }
 
-    private void paintNoButton() {
+    public void paintNoButton() {
         noButton.setBackground(ContextCompat.getDrawable(context, R.drawable.no_button_selected));
         noButton.setTextColor(Color.parseColor("#FFFFFF"));
         noButtonSelected = true;
     }
 
-    private void unPaintNoButton(){
+    public void unPaintNoButton(){
         noButton.setBackground(ContextCompat.getDrawable(context, R.drawable.no_button_unselected));
         noButton.setTextColor(Color.parseColor("#eb0303"));
         noButtonSelected = false;
@@ -67,6 +67,12 @@ public class RadioButtonView {
         if(yesButtonSelected){
             return true;
         }
+        return false;
+    }
+
+    public boolean areButtonsPainted(){
+        if(yesButtonSelected || noButtonSelected)
+            return true;
         return false;
     }
 }

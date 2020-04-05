@@ -31,6 +31,7 @@ import com.google.android.gms.location.LocationResult;
 import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -46,10 +47,13 @@ public class LocationService extends Service {
     private LocationRequest locationRequest;
     private String document;
     private String type;
+    private String publicityId;
+    int interval;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        getInterval();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel serviceChannel = new NotificationChannel(
                     CHANNEL_ID,
@@ -72,6 +76,7 @@ public class LocationService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         document = intent.getStringExtra("document");
         type = intent.getStringExtra("type");
+        publicityId = intent.getStringExtra("publicityId");
         requestLocationUpdates();
         return START_NOT_STICKY;
     }
@@ -87,6 +92,22 @@ public class LocationService extends Service {
         return null;
     }
 
+    public void getInterval(){
+
+        String urlQuestions = "http://107.180.91.147:3031/ubication/interval";
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, urlQuestions, null, response -> {
+            try {
+                Log.i("questions", response.toString());
+                interval = response.getInt("interval");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        },null);
+        Volley.newRequestQueue(getBaseContext()).add(request);
+
+
+    }
+
     public void requestLocationUpdates() {
         boolean finePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PermissionChecker.PERMISSION_GRANTED;
         boolean coarsePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PermissionChecker.PERMISSION_GRANTED;
@@ -95,7 +116,7 @@ public class LocationService extends Service {
             locationRequest = new LocationRequest();
             locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
             locationRequest.setFastestInterval(2000);
-            locationRequest.setInterval(360000);
+            locationRequest.setInterval(60000*interval);
             fusedLocationProviderClient.requestLocationUpdates(locationRequest, new LocationCallback() {
                 @Override
                 public void onLocationResult(LocationResult locationResult) {
@@ -112,10 +133,9 @@ public class LocationService extends Service {
     private void sendUserLocation(Location location) {
         try {
             Log.e(TAG, "Latitude: " + location.getLatitude() + "\nLongitude: " + location.getLongitude());
-            Toast.makeText(this, "Latitude: "+ location.getLatitude()+"\nLongitude: "+location.getLongitude(), Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "Latitude: "+ location.getLatitude()+"\nLongitude: "+location.getLongitude(), Toast.LENGTH_LONG).show();
             Map<String, Object> data = new HashMap<String, Object>();
-            data.put("document", document);
-            data.put("type", type);
+            data.put("publicityId",publicityId);
             data.put("latitude", 12);
             data.put("longitude", 12);
             JSONObject postData;
